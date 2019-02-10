@@ -65,20 +65,31 @@
         </style>
     </head>
     <body>
-        <div class="">
-            <div class="container">
-				<h2>Products</h2>
-				@if ($data['products']['status'] == 200 && isset($data['products']['list']->data) && count($data['products']['list']->data))
-					@foreach ($data['products']['list']->data as $product)
-						<a href="/details/{{ $product->id }}" style="color: #000000; padding: 15px; text-decoration: none;">
-							<div style="border: 1px solid #ddd; padding: 15px;">
-								<h3>{{ $product->name }}</h3>
-								<p>{{ $product->size }} inch</p>
-								<p>{{ $product->processor }}</p>
-								<p>{{ $product->category }}</p>
-							</div>
-						</a>
-					@endforeach
+        <div class="container">
+            <div class="" style="padding: 20px;">
+				@php
+					$product = '';
+					foreach($data['product'] as $p) {
+						$product = $p;
+					}
+				@endphp
+				@if (isset($product->name))
+					<div>
+						<h2>{{ $product->name }} <span>{{ $product->category }}</span></h2>
+						<p>{{ $product->description }}</p>
+						<p>{{ $product->size }} inches</p>
+						<p>{{ $product->processor }}</p>
+						@if (isset($data['reviews']) && count($data['reviews']))
+							<h3>Reviews</h3>
+							@foreach($data['reviews'] as $r)
+								<div style="background-color: #eee; padding: 20px; border: 1px solid #ddd;">
+									<p>{{ $r->message }}</p>
+									<p>By <B>{{ $r->user }}</B></p>
+									<p style="color: blue">{{ $r->likesCount }} Likes</p>
+								</div>
+							@endforeach							
+						@endif
+					</div		
 				@endif
             </div>
         </div>

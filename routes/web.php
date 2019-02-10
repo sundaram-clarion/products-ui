@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@productList');
+
+Route::get('/details/{id}', 'HomeController@details');
