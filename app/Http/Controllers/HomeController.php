@@ -38,10 +38,16 @@ class HomeController extends Controller
 		$contents = $response->getBody()->getContents();
 		$data['products']['list'] = json_decode($contents);
 		
-		$reviewResponse = $client->request('GET', 'http://shop.com/v1/product/reviews');
-		$data['reviews']['status'] = $reviewResponse->getStatusCode();
-		$contents = $reviewResponse->getBody()->getContents();
-		$data['reviews']['list'] = json_decode($contents);	
+		$data['reviews']['status'] = false;
+		$data['reviews']['list'] = [];
+		try {
+			$reviewResponse = $client->request('GET', 'http://shop.com/v1/product/reviews');
+			$data['reviews']['status'] = $reviewResponse->getStatusCode();
+			$contents = $reviewResponse->getBody()->getContents();
+			$data['reviews']['list'] = json_decode($contents);	
+		} catch (\Exception $e) {
+			//logging comes here
+		}
 		return $data;
 	}
 }
